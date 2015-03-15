@@ -1,0 +1,110 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Socket.IO chat</title>
+ 
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { font: 13px Helvetica, Arial; }
+      form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
+      form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
+      form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+      #messages { list-style-type: none; margin: 0; padding: 0; }
+      #messages li { padding: 5px 10px; }
+      #messages li:nth-child(odd) { background: #eee; }
+    
+          
+      #n{
+          width: 50%;
+          height: 60px;
+      }
+	  .inputs {
+    height: 50px;
+    padding: 0 10px;
+    border: none;
+    background: #FFF;
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.5);
+    font-family: 'Montserrat', sans-serif;
+    text-indent: 10px;
+    color: White;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    font-size: 20px;
+    width: 270px;
+}
+
+.inputs:focus {
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2), inset 0 1px 1px rgba(0, 0, 0, 0.1), 0 0 0 3px rgba(255, 255, 255, 0.15);
+    outline: none;
+    background: #F7DEF7;
+    background: rgba(255, 255, 255, 0.4);
+    outline: solid 1px white;
+}
+	  .overlay{
+ 		 position: absolute;
+ 		 top: 0;
+		  left: 0;
+		  width: 100%;
+		  height: 100%;
+ 		 z-index: 10;
+ 		 background-color: rgba(0,0,0,0.5);
+}
+
+.btn {
+	width: 150px;
+  background: #000000;
+  -webkit-border-radius: 5;
+  -moz-border-radius: 5;
+  border-radius: 5px;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 20px;
+  padding: 10px 40px 10px 40px;
+  text-decoration: none;
+  text-align: center;
+}
+      
+      
+       </style>
+  </head>  
+  <body>
+      
+      <div class="overlay">
+          
+        <input id="n"class="inputs" placeholder="Your name" />
+
+             
+
+
+        
+        <div class="btn">Enter</div>
+      
+      </div>
+      
+    <ul id="messages"></ul>
+    <form action="">
+      <input id="m" autocomplete="off" /><button>Send</button>
+    </form>
+	<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+	<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+	<script>
+        var colors = ['red', 'blue', 'green'];
+        var random_color =  colors[Math.floor(Math.random() * colors.length)];
+        $('#li').css('color', random_color);
+		var socket = io();
+		$('form').submit(function(){
+			socket.emit('chat message',$('#n').val()+ ": " + $('#m').val());
+			$('#m').val('');
+			return false;
+		});
+		socket.on('chat message', function(msg){
+			$('#messages').append($('<li id="li">').text(msg));
+		});
+        
+    
+        
+        
+	</script>
+  </body>
+</html>
